@@ -8,8 +8,10 @@ public class SavingsAccount extends Account {
 
     @Override
     public void debit(double amount) {
-        if(this.getBalance()>=amount+Customer.MIN_SAVINGS_BALANCE)
-            this.setBalance(this.getBalance()-amount);
+        if(this.getBalance()<amount+Customer.MIN_SAVINGS_BALANCE) {
+           return;
+        }
+        super.debit(amount);
     }
 
     @Override

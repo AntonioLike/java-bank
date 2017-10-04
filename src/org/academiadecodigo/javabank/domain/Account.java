@@ -16,9 +16,8 @@ public abstract class Account {
     }
 
     public void debit(double amount) {
-        if (balance >= amount) {
-            balance -= amount;
-        }
+        if(getBalance()<=amount)
+            setBalance(getBalance()-amount);
     }
 
     public double getBalance() {
@@ -29,9 +28,7 @@ public abstract class Account {
         this.balance = balance;
     }
 
-    public AccountType getAccountType() {
-        return accountType;
-    }
+    public abstract AccountType getAccountType();
 
 
     public int getId() {
