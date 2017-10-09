@@ -15,7 +15,7 @@ public class App {
 
         Customer c1 = new Customer(1,"Rui");
         Customer c2 = new Customer(2,"Sergio");
-        Customer c3 = new Customer(2,"Bruno");
+        Customer c3 = new Customer(3,"Bruno");
         bank.addCustomer(c1);
         bank.addCustomer(c2);
         bank.addCustomer(c3);
