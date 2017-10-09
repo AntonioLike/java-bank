@@ -7,6 +7,8 @@ Account balance cannot be negative, transactions should fail if not enough money
 The Savings Account has a minimum balance should be 100, no debits or transfers can be made from this account if inactive.
 The Customer can deposit or withdraw from the checking account or transfer money between checking and savings account
 The Customer balance equals the sum of the balances of all the customer accounts.
+The Customer can manage a list of recipients
+The customer can transfer money from any of its accounts to any of its recipients
 The Bank balance equals the sum of the balances of all customers.
 
 ## Functional Requirements
@@ -24,44 +26,43 @@ The Bank balance equals the sum of the balances of all customers.
 1. Bank should be able to check the combined balance of all customers
 
 ## Identifying Objects & Responsibilities
-Bank, Customer, Checking, Savings, Account, Money
 
 ### Bank
 Represents the Banking service, contains costumers
 
-### Responsibilities
+#### Responsibilities
 * add a new customer
 * get balance
 
-### Collaborators
+#### Collaborators
 * Customer
 
-## Customer
+### Customer
 Represents bank customers, contains accounts
 
-### Responsibilities
+#### Responsibilities
 * add a new account
 * deposit money on account
 * withdraw money from account
 * transfer between accounts
 * get balance
 
-### Collaborators
+#### Collaborators
 * Account
 
-## Account
+### Account
 Represents a Bank Account, contains money
 
-### Responsibilities
+#### Responsibilities
 * credit
 * debit
 * get balance
 
-## High Level Design
+## Design Decisions
 
-* Inheritance is an obvious choice for modeling different account types, but was not used deliberatly
-* Customer contains Accounts seemed like a better choice than Accounts belong to Customer
-* Account objects are stored in Map container for quick and convenient access
-* Customer objects are stored in Set container to prevent duplicates
-
- 
+* Inheritance used with generic Account class and specific CheckingAccount and SavingsAccount classes
+* Composition and delegation used with AccountManager containing and performing all account related operations (less responsibility to customer)
+* Account and Customer objects are stored in Map container for quick and convenient access
+* AccountFactory decouples Account usage from Account creation logic
+* Strategy pattern used for executing multiple bank operations and account transaction operations
+* Console based user interface implemented using the propmt-view lib
