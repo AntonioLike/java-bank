@@ -1,12 +1,12 @@
-package org.academiadecodigo.javabank.application;
+package org.academiadecodigo.javabank.view;
 
 import org.academiadecodigo.bootcamp.scanners.menu.MenuInputScanner;
 import org.academiadecodigo.bootcamp.Prompt;
 import org.academiadecodigo.bootcamp.scanners.integer.IntegerSetInputScanner;
-import org.academiadecodigo.javabank.application.operations.*;
-import org.academiadecodigo.javabank.application.operations.transaction.DepositOperation;
-import org.academiadecodigo.javabank.application.operations.transaction.WithdrawOperation;
-import org.academiadecodigo.javabank.domain.Bank;
+import org.academiadecodigo.javabank.controller.*;
+import org.academiadecodigo.javabank.controller.transaction.DepositOperation;
+import org.academiadecodigo.javabank.controller.transaction.WithdrawOperation;
+import org.academiadecodigo.javabank.model.Bank;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -18,7 +18,7 @@ public class BankApplication {
     private Map<Integer, Operation> operationsMap;
 
     private Bank bank;
-    private int acessingCustomerId;
+    private int accessingCustomerId;
 
     public BankApplication(Bank bank) {
         this.bank = bank;
@@ -29,7 +29,7 @@ public class BankApplication {
 
         mainMenu = buildMainMenu();
 
-        acessingCustomerId = scanCustomerId();
+        accessingCustomerId = scanCustomerId();
         operationsMap = buildOperationsMap();
         menuLoop();
 
@@ -79,8 +79,8 @@ public class BankApplication {
 
     }
 
-    public int getAcessingCustomerId() {
-        return acessingCustomerId;
+    public int getAccessingCustomerId() {
+        return accessingCustomerId;
     }
 
     public Bank getBank() {
