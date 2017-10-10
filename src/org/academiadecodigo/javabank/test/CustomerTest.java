@@ -1,8 +1,8 @@
 package org.academiadecodigo.javabank.test;
 
-import org.academiadecodigo.javabank.managers.AccountService;
+import org.academiadecodigo.javabank.services.AccountService;
 import org.academiadecodigo.javabank.model.Customer;
-import org.academiadecodigo.javabank.model.CustomerService;
+import org.academiadecodigo.javabank.services.CustomerService;
 import org.academiadecodigo.javabank.model.account.Account;
 import org.academiadecodigo.javabank.model.account.AccountType;
 import org.academiadecodigo.javabank.model.account.SavingsAccount;

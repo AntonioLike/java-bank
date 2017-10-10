@@ -1,17 +1,17 @@
-package org.academiadecodigo.javabank.model;
+package org.academiadecodigo.javabank.services;
 
-import org.academiadecodigo.javabank.managers.AccountService;
+import org.academiadecodigo.javabank.model.Customer;
 import org.academiadecodigo.javabank.model.account.Account;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 public class CustomerService {
 
-    private AccountService accountManager;
+    private AccountService accountService;
     private HashMap<Integer, Customer> customers;
 
-    private int loginCustomer;
 
     public CustomerService() {
         this.customers = new HashMap<>();
@@ -24,6 +24,8 @@ public class CustomerService {
     public Set<Integer> getCustomerIds() {
         return customers.keySet();
     }
+
+    public Map<Integer, Customer> getCustomers(){ return customers;}
 
     public void addAccount(Account account, int customerID) {
         customers.get(customerID).getAccountsMap().put(account.getId(), account);
@@ -40,19 +42,12 @@ public class CustomerService {
         return balance;
     }
 
-    public void setAccountManager(AccountService accountManager) {
-        this.accountManager = accountManager;
+    public void setAccountService(AccountService accountService) {
+        this.accountService = accountService;
     }
 
-    public AccountService getAccountManager() {
-        return accountManager;
+    public AccountService getAccountService() {
+        return accountService;
     }
 
-    public Customer getLoginCustomer() {
-        return customers.get(loginCustomer);
-    }
-
-    public void setLoginCustomer(int id) {
-        this.loginCustomer = id;
-    }
 }

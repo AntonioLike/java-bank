@@ -1,7 +1,7 @@
 package org.academiadecodigo.javabank;
 
 import org.academiadecodigo.javabank.controller.LoginController;
-import org.academiadecodigo.javabank.model.CustomerService;
+import org.academiadecodigo.javabank.services.CustomerService;
 
 public class App {
 
