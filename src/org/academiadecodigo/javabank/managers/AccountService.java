@@ -9,12 +9,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class AccountManager {
+public class AccountService {
 
     private AccountFactory accountFactory = new AccountFactory();
     private Map<Integer, Account> accountMap;
 
-    public AccountManager() {
+    public AccountService() {
         accountMap = new HashMap<>();
     }
 

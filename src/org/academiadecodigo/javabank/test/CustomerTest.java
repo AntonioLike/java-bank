@@ -1,7 +1,8 @@
 package org.academiadecodigo.javabank.test;
 
-import org.academiadecodigo.javabank.managers.AccountManager;
+import org.academiadecodigo.javabank.managers.AccountService;
 import org.academiadecodigo.javabank.model.Customer;
+import org.academiadecodigo.javabank.model.CustomerService;
 import org.academiadecodigo.javabank.model.account.Account;
 import org.academiadecodigo.javabank.model.account.AccountType;
 import org.academiadecodigo.javabank.model.account.SavingsAccount;
@@ -10,7 +11,8 @@ public class CustomerTest {
 
     public boolean test() {
 
-        AccountManager accountManager = new AccountManager();
+        CustomerService customerService = new CustomerService();
+        AccountService accountManager = new AccountService();
         Customer customer = new Customer(1, "Rui");
 
         // customer should not contain any accounts
@@ -21,8 +23,8 @@ public class CustomerTest {
         // should be able to open accounts
         Account ac = accountManager.openAccount(AccountType.CHECKING);
         Account as = accountManager.openAccount(AccountType.SAVINGS);
-        customer.addAccount(ac);
-        customer.addAccount(as);
+        customerService.addAccount(ac,customer.getId());
+        customerService.addAccount(as,customer.getId());
 
         if (customer.getAccountIds().size() != 2) {
             return false;

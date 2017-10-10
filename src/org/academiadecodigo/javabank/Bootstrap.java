@@ -3,10 +3,10 @@ package org.academiadecodigo.javabank;
 import org.academiadecodigo.bootcamp.Prompt;
 import org.academiadecodigo.javabank.controller.transaction.DepositController;
 import org.academiadecodigo.javabank.controller.transaction.WithdrawalController;
+import org.academiadecodigo.javabank.managers.AccountService;
+import org.academiadecodigo.javabank.model.CustomerService;
 import org.academiadecodigo.javabank.view.UserOptions;
 import org.academiadecodigo.javabank.controller.*;
-import org.academiadecodigo.javabank.managers.AccountManager;
-import org.academiadecodigo.javabank.model.Bank;
 import org.academiadecodigo.javabank.model.Customer;
 import org.academiadecodigo.javabank.view.*;
 import org.academiadecodigo.javabank.view.AccountTransactionView;
@@ -16,10 +16,10 @@ import java.util.Map;
 
 public class Bootstrap {
 
-    public Bank generateTestData() {
+    public CustomerService generateTestData() {
 
-        Bank bank = new Bank();
-        AccountManager accountManager = new AccountManager();
+        CustomerService bank = new CustomerService();
+        AccountService accountManager = new AccountService();
         bank.setAccountManager(accountManager);
 
         Customer c1 = new Customer(1, "Rui");
@@ -32,7 +32,7 @@ public class Bootstrap {
         return bank;
     }
 
-    public LoginController wireObjects(Bank bank) {
+    public LoginController wireObjects(CustomerService bank) {
 
         // attach all input to standard i/o
         Prompt prompt = new Prompt(System.in, System.out);

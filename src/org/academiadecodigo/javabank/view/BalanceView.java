@@ -1,6 +1,6 @@
 package org.academiadecodigo.javabank.view;
 
-import org.academiadecodigo.javabank.model.Bank;
+import org.academiadecodigo.javabank.model.CustomerService;
 import org.academiadecodigo.javabank.model.Customer;
 import org.academiadecodigo.javabank.model.account.Account;
 
@@ -9,10 +9,10 @@ import java.util.Set;
 
 public class BalanceView implements View {
 
-    private Bank bank;
+    private CustomerService bank;
     DecimalFormat df = new DecimalFormat("#.##");
 
-    public void setBank(Bank bank) {
+    public void setBank(CustomerService bank) {
         this.bank = bank;
     }
 
