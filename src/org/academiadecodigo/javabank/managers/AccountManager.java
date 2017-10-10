@@ -1,11 +1,12 @@
 package org.academiadecodigo.javabank.managers;
 
-import org.academiadecodigo.javabank.domain.account.Account;
-import org.academiadecodigo.javabank.domain.account.AccountType;
-import org.academiadecodigo.javabank.domain.account.SavingsAccount;
+import org.academiadecodigo.javabank.model.account.Account;
+import org.academiadecodigo.javabank.model.account.AccountType;
 import org.academiadecodigo.javabank.factories.AccountFactory;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class AccountManager {
@@ -15,6 +16,10 @@ public class AccountManager {
 
     public AccountManager() {
         accountMap = new HashMap<>();
+    }
+
+    public Account findById(int id) {
+        return accountMap.get(id);
     }
 
     public Account openAccount(AccountType accountType) {

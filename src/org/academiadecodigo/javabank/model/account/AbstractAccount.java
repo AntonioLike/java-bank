@@ -1,4 +1,4 @@
-package org.academiadecodigo.javabank.domain.account;
+package org.academiadecodigo.javabank.model.account;
 
 public abstract class AbstractAccount implements Account {
 
@@ -38,4 +38,5 @@ public abstract class AbstractAccount implements Account {
     public boolean canCredit(double amount) {
         return amount > 0;
     }
+
 }

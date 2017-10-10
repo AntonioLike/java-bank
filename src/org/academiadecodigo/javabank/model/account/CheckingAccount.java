@@ -1,14 +1,13 @@
-package org.academiadecodigo.javabank.domain.account;
+package org.academiadecodigo.javabank.model.account;
 
 public class CheckingAccount extends AbstractAccount {
 
-    public CheckingAccount(int id) {
-        super(id);
+    public CheckingAccount(int accountNumber) {
+        super(accountNumber);
     }
 
     @Override
     public AccountType getAccountType() {
         return AccountType.CHECKING;
     }
-
 }
