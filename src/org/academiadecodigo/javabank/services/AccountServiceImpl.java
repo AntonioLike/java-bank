@@ -1,31 +1,23 @@
-package org.academiadecodigo.javabank.managers;
+package org.academiadecodigo.javabank.services;
 
 import org.academiadecodigo.javabank.model.account.Account;
 import org.academiadecodigo.javabank.model.account.AccountType;
-import org.academiadecodigo.javabank.factories.AccountFactory;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-public class AccountManager {
+public class AccountServiceImpl implements AccountService {
 
-    private AccountFactory accountFactory = new AccountFactory();
-    private Map<Integer, Account> accountMap;
+    private Map<Integer, Account> accountMap = new HashMap<>();
 
-    public AccountManager() {
-        accountMap = new HashMap<>();
-    }
+    public void add(Account account) {
 
-    public Account findById(int id) {
-        return accountMap.get(id);
-    }
+        if (account.getId() == null) {
+            account.setId(getNextId());
+        }
 
-    public Account openAccount(AccountType accountType) {
-        Account newAccount = accountFactory.createAccount(accountType);
-        accountMap.put(newAccount.getId(), newAccount);
-        return newAccount;
+        accountMap.put(account.getId(), account);
     }
 
     public void deposit(int id, double amount) {
@@ -52,5 +44,9 @@ public class AccountManager {
             srcAccount.debit(amount);
             dstAccount.credit(amount);
         }
+    }
+
+    private Integer getNextId() {
+        return accountMap.isEmpty() ? 1 : Collections.max(accountMap.keySet()) + 1;
     }
 }

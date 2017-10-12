@@ -1,13 +1,10 @@
 package org.academiadecodigo.javabank.model.account;
 
-public abstract class AbstractAccount implements Account {
+import org.academiadecodigo.javabank.model.AbstractModel;
 
-    private int id;
+public abstract class AbstractAccount extends AbstractModel implements Account {
+
     private double balance = 0;
-
-    public AbstractAccount(int id) {
-        this.id = id;
-    }
 
     public void credit(double amount) {
         if (canCredit(amount)) {
@@ -26,10 +23,6 @@ public abstract class AbstractAccount implements Account {
     }
 
     public abstract AccountType getAccountType();
-
-    public int getId() {
-        return id;
-    }
 
     public boolean canDebit(double amount) {
         return amount > 0 && amount <= balance;

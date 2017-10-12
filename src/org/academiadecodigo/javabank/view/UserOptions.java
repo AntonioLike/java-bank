@@ -1,6 +1,6 @@
 package org.academiadecodigo.javabank.view;
 
-public enum  UserOptions {
+public enum UserOptions {
 
     GET_BALANCE(1, Messages.MENU_GET_BALANCE),
     DEPOSIT(2, Messages.MENU_DEPOSIT),
@@ -11,28 +11,28 @@ public enum  UserOptions {
     private int option;
     private String message;
 
-    public int getOption() {
-        return option;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
     UserOptions(int option, String message) {
-       this.option = option;
-       this.message = message;
+        this.option = option;
+        this.message = message;
     }
 
     public static String[] getMessages() {
 
         String[] messages = new String[values().length];
 
-        for (UserOptions option: values()) {
+        for (UserOptions option : values()) {
             messages[option.getOption() - 1] = option.getMessage();
         }
 
         return messages;
+    }
+
+    public int getOption() {
+        return option;
+    }
+
+    public String getMessage() {
+        return message;
     }
 
 }

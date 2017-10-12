@@ -1,8 +1,8 @@
 package org.academiadecodigo.javabank.model.account;
 
-public interface Account {
+import org.academiadecodigo.javabank.model.Model;
 
-    int getId();
+public interface Account extends Model {
 
     AccountType getAccountType();
 
