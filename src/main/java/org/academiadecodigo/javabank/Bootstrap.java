@@ -76,7 +76,7 @@ public class Bootstrap {
         newAccountController.setView(newAccountView);
         newAccountView.setNewAccountController(newAccountController);
 
-        // wire account transactions controllers and views
+        // wire account transactions controller and views
         DepositController depositController = new DepositController();
         WithdrawalController withdrawalController = new WithdrawalController();
         AccountTransactionView depositView = new AccountTransactionView();
