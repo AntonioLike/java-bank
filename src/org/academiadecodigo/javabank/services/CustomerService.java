@@ -46,8 +46,4 @@ public class CustomerService {
         this.accountService = accountService;
     }
 
-    public AccountService getAccountService() {
-        return accountService;
-    }
-
 }

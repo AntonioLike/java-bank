@@ -13,6 +13,10 @@ public class AuthenticationService {
     }
 
     public boolean authenticateLogin(int id){
+
+        //loginCustomer = customerService.getCustomer(id);
+        //return loginCustomer != null;
+
         if(customerService.getCustomerIds().contains(id)){
             loginCustomer = customerService.getCustomers().get(id);
             return true;

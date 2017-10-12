@@ -13,12 +13,12 @@ public class NewAccountController extends AbstractController {
     private AuthenticationService authenticationService;
     private Integer newAccountId;
 
-    public void setAccountService(AccountService accountService) {
-        this.accountService = accountService;
-    }
-
     public void setAuthenticationService(AuthenticationService authenticationService) {
         this.authenticationService = authenticationService;
+    }
+
+    public void setAccountService(AccountService accountService) {
+        this.accountService = accountService;
     }
 
     @Override
@@ -30,7 +30,7 @@ public class NewAccountController extends AbstractController {
 
     private int createAccount() {
 
-        Account newAccount = customerService.getAccountService().openAccount(AccountType.CHECKING);
+        Account newAccount = accountService.openAccount(AccountType.CHECKING);
         customerService.addAccount(newAccount, authenticationService.getLoginCustomer().getId());
 
         return newAccount.getId();

@@ -40,6 +40,7 @@ public class Bootstrap {
 
         AuthenticationService authenticationService = new AuthenticationService();
         authenticationService.setCustomerService(customerService);
+        AccountService accountService = new AccountService();
 
 
         // wire login controller and view
@@ -59,7 +60,6 @@ public class Bootstrap {
         mainController.setView(mainView);
         loginController.setNextController(mainController);
         mainController.setAuthenticationService(authenticationService);
-        mainController.setCustomerService(customerService);
 
         // wire balance controller and view
         BalanceController balanceController = new BalanceController();
@@ -75,6 +75,7 @@ public class Bootstrap {
         newAccountController.setView(newAccountView);
         newAccountView.setNewAccountController(newAccountController);
         newAccountController.setAuthenticationService(authenticationService);
+        newAccountController.setAccountService(accountService);
 
         // wire account transactions controllers and views
         DepositController depositController = new DepositController();
@@ -91,6 +92,8 @@ public class Bootstrap {
         withdrawView.setTransactionController(withdrawalController);
         depositController.setAuthenticationService(authenticationService);
         withdrawalController.setAuthenticationService(authenticationService);
+        depositController.setAccountService(accountService);
+        withdrawalController.setAccountService(accountService);
 
         // setup the controller map
         Map<Integer, Controller> controllerMap = new HashMap<>();
