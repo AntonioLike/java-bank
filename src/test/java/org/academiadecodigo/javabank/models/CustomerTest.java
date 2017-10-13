@@ -23,6 +23,6 @@ public class CustomerTest {
     public void addAccountTest(){
         customer.addAccount(account);
 
-        Mockito.verify(account));
+        Mockito.verify(account);
     }
 }

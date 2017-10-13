@@ -1,0 +1,3 @@
+2017-10-13 17:36:20 jdbc[4]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "SELECT * ACCOUNT[*]"; SQL statement:
+SELECT * ACCOUNT [42000-196]
