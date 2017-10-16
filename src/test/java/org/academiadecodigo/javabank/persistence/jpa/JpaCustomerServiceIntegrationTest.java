@@ -1,10 +1,11 @@
-package org.academiadecodigo.javabank.services.jpa;
+package org.academiadecodigo.javabank.persistence.jpa;
 
 import org.academiadecodigo.javabank.model.Customer;
 import org.academiadecodigo.javabank.model.account.Account;
 import org.academiadecodigo.javabank.model.account.CheckingAccount;
 import org.academiadecodigo.javabank.model.account.SavingsAccount;
 import org.academiadecodigo.javabank.persistence.JpaIntegrationTestHelper;
+import org.academiadecodigo.javabank.services.jpa.JpaCustomerService;
 import org.junit.Before;
 import org.junit.Test;
 

@@ -1,6 +1,7 @@
 package org.academiadecodigo.javabank.services.jpa;
 
 import org.academiadecodigo.javabank.model.account.Account;
+import org.academiadecodigo.javabank.managers.TransactionManagers.TransactionManager;
 import org.academiadecodigo.javabank.services.AccountService;
 
 import javax.persistence.EntityManager;
@@ -8,6 +9,8 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.RollbackException;
 
 public class JpaAccountService extends AbstractJpaService<Account> implements AccountService {
+
+    private TransactionManager transactionManager;
 
     public JpaAccountService(EntityManagerFactory emf) {
         super(emf, Account.class);
