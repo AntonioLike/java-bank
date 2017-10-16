@@ -24,7 +24,7 @@ public class App {
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("dev ");
 
             App app = new App();
-            app.bootStrap();
+            app.bootStrap(emf);
 
             emf.close();
             h2WebServer.stop();
@@ -35,12 +35,12 @@ public class App {
 
     }
 
-    private void bootStrap() {
+    private void bootStrap(EntityManagerFactory emf) {
 
         Bootstrap bootstrap = new Bootstrap();
-        bootstrap.setAuthService(new AuthServiceImpl());
-        bootstrap.setAccountService(new AccountServiceImpl());
-        bootstrap.setCustomerService(new CustomerServiceImpl());
+        bootstrap.setAuthService(new AuthServiceImpl(emf));
+        bootstrap.setAccountService(new AccountServiceImpl(emf));
+        bootstrap.setCustomerService(new CustomerServiceImpl(emf));
         bootstrap.loadCustomers();
 
         LoginController loginController = bootstrap.wireObjects();

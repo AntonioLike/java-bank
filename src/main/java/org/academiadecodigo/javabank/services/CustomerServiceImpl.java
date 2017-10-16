@@ -3,11 +3,17 @@ package org.academiadecodigo.javabank.services;
 import org.academiadecodigo.javabank.model.Customer;
 import org.academiadecodigo.javabank.model.account.Account;
 
+import javax.persistence.EntityManagerFactory;
 import java.util.*;
 
 public class CustomerServiceImpl implements CustomerService {
 
     private Map<Integer, Customer> customerMap = new HashMap<>();
+    private EntityManagerFactory emf;
+
+    public CustomerServiceImpl(EntityManagerFactory emf) {
+        this.emf = emf;
+    }
 
     @Override
     public void add(Customer customer) {

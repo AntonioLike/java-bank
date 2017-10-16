@@ -3,21 +3,45 @@ package org.academiadecodigo.javabank.services;
 import org.academiadecodigo.javabank.model.account.Account;
 import org.academiadecodigo.javabank.model.account.AccountType;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.RollbackException;
+import javax.swing.text.html.parser.Entity;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
 public class AccountServiceImpl implements AccountService {
 
+    private EntityManagerFactory emf;
+
     private Map<Integer, Account> accountMap = new HashMap<>();
+
+    public AccountServiceImpl(EntityManagerFactory emf) {
+        this.emf = emf;
+    }
 
     public void add(Account account) {
 
-        if (account.getId() == null) {
+      /*  if (account.getId() == null) {
             account.setId(getNextId());
         }
 
-        accountMap.put(account.getId(), account);
+        accountMap.put(account.getId(), account);*/
+
+        EntityManager em = emf.createEntityManager();
+
+        try {
+            em.getTransaction().begin();
+            em.merge(account);
+            em.getTransaction().commit();
+        }catch (RollbackException ex){
+            em.getTransaction().rollback();
+        }finally {
+            if (em != null)
+                em.close();
+        }
+
     }
 
     public void deposit(int id, double amount) {
