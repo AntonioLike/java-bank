@@ -21,11 +21,8 @@ public class NewAccountController extends AbstractController {
     private int createAccount() {
 
         Account newAccount = accountFactory.createAccount(AccountType.CHECKING);
+        return accountService.add(newAccount).getId();
 
-        accountService.add(newAccount);
-        authService.getAccessingCustomer().addAccount(newAccount);
-
-        return newAccount.getId();
     }
 
     public Integer getNewAccountId() {

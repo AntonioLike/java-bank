@@ -1,19 +1,14 @@
-package org.academiadecodigo.javabank.services;
+package org.academiadecodigo.javabank.services.mock;
 
 import org.academiadecodigo.javabank.model.Customer;
 import org.academiadecodigo.javabank.model.account.Account;
+import org.academiadecodigo.javabank.services.CustomerService;
 
-import javax.persistence.EntityManagerFactory;
 import java.util.*;
 
 public class CustomerServiceImpl implements CustomerService {
 
     private Map<Integer, Customer> customerMap = new HashMap<>();
-    private EntityManagerFactory emf;
-
-    public CustomerServiceImpl(EntityManagerFactory emf) {
-        this.emf = emf;
-    }
 
     @Override
     public void add(Customer customer) {

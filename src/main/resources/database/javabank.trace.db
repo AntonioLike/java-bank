@@ -1,3 +1,20 @@
 2017-10-13 17:36:20 jdbc[4]: exception
 org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "SELECT * ACCOUNT[*]"; SQL statement:
 SELECT * ACCOUNT [42000-196]
+2017-10-16 10:48:26 jdbc[4]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "SELECT * ACCOUNT[*]"; SQL statement:
+SELECT * ACCOUNT [42000-196]
+2017-10-16 10:48:42 jdbc[4]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "SELECT * ACCOUNT[*]
+SELECT * ACCOUNT "; SQL statement:
+SELECT * ACCOUNT
+Select * ACCOUNT [42000-196]
+2017-10-16 10:48:49 jdbc[4]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "SELECT * ACCOUNT[*] "; SQL statement:
+Select * ACCOUNT [42000-196]
+2017-10-16 10:49:21 jdbc[4]: exception
+org.h2.jdbc.JdbcSQLException: Table "ACCCOUNT" not found; SQL statement:
+SELECT * FROM ACCCOUNT [42102-196]
+2017-10-16 11:08:27 jdbc[4]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "S[*]"; expected "SELECT, SET, SAVEPOINT, SCRIPT, SHUTDOWN, SHOW, {"; SQL statement:
+S [42001-196]

@@ -1,30 +1,25 @@
-package org.academiadecodigo.javabank.services;
+package org.academiadecodigo.javabank.services.mock;
 
 import org.academiadecodigo.javabank.model.Customer;
-
-import javax.persistence.EntityManagerFactory;
+import org.academiadecodigo.javabank.services.AuthService;
+import org.academiadecodigo.javabank.services.CustomerService;
 
 public class AuthServiceImpl implements AuthService {
 
-    private EntityManagerFactory emf;
 
-    public AuthServiceImpl(EntityManagerFactory emf) {
-        this.emf = emf;
-    }
-
-    private Customer accesingCustomer;
+    private Customer accessingCustomer;
     private CustomerService customerService;
 
     @Override
     public boolean authenticate(Integer id) {
 
-        accesingCustomer = customerService.findById(id);
-        return accesingCustomer != null;
+        accessingCustomer = customerService.findById(id);
+        return accessingCustomer != null;
     }
 
     @Override
     public Customer getAccessingCustomer() {
-        return accesingCustomer;
+        return accessingCustomer;
     }
 
     public void setCustomerService(CustomerService customerService) {

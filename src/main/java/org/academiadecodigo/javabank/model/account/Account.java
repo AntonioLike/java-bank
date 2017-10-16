@@ -10,7 +10,7 @@ import java.util.Date;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "account_type")
+@DiscriminatorColumn(name = "AccountType")
 public abstract class Account extends AbstractModel {
 
     @Id

@@ -1,7 +1,10 @@
-package org.academiadecodigo.javabank.services;
+package org.academiadecodigo.javabank.services.mock;
 
+import org.academiadecodigo.javabank.model.Customer;
 import org.academiadecodigo.javabank.model.account.Account;
 import org.academiadecodigo.javabank.model.account.AccountType;
+import org.academiadecodigo.javabank.services.AccountService;
+import org.academiadecodigo.javabank.services.AuthService;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -13,34 +16,28 @@ import java.util.Map;
 
 public class AccountServiceImpl implements AccountService {
 
-    private EntityManagerFactory emf;
-
     private Map<Integer, Account> accountMap = new HashMap<>();
 
-    public AccountServiceImpl(EntityManagerFactory emf) {
-        this.emf = emf;
+    private AuthService authService;
+
+    public void setAuthService(AuthService authService) {
+        this.authService = authService;
     }
 
-    public void add(Account account) {
+    public void setCustomer(Customer customer, Account account)
+    {
+        account.setCustomer(customer);
+    }
 
-      /*  if (account.getId() == null) {
+    public Account add(Account account) {
+
+        if (account.getId() == null) {
             account.setId(getNextId());
         }
 
-        accountMap.put(account.getId(), account);*/
+        accountMap.put(account.getId(), account);
 
-        EntityManager em = emf.createEntityManager();
-
-        try {
-            em.getTransaction().begin();
-            em.merge(account);
-            em.getTransaction().commit();
-        }catch (RollbackException ex){
-            em.getTransaction().rollback();
-        }finally {
-            if (em != null)
-                em.close();
-        }
+        return null;
 
     }
 
