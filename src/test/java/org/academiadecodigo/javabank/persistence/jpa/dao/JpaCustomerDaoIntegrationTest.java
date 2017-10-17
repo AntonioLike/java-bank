@@ -1,68 +1,29 @@
-package org.academiadecodigo.javabank.services.jpa;
+package org.academiadecodigo.javabank.persistence.jpa.dao;
 
 import org.academiadecodigo.javabank.model.Customer;
 import org.academiadecodigo.javabank.model.account.Account;
 import org.academiadecodigo.javabank.model.account.CheckingAccount;
 import org.academiadecodigo.javabank.model.account.SavingsAccount;
-import org.academiadecodigo.javabank.persistence.JpaIntegrationTestHelper;
+import org.academiadecodigo.javabank.persistence.dao.jpa.JpaCustomerDao;
+import org.academiadecodigo.javabank.persistence.jpa.JpaIntegrationTestHelper;
 import org.junit.Before;
 import org.junit.Test;
 
-import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import java.util.List;
-import java.util.Set;
 
 import static org.junit.Assert.*;
 
-public class JpaCustomerServiceIntegrationTest extends JpaIntegrationTestHelper {
+public class JpaCustomerDaoIntegrationTest extends JpaIntegrationTestHelper {
 
     private final static Integer INVALID_ID = 9999;
     private final static double DOUBLE_DELTA = 0.1;
 
-    private JpaCustomerService cs;
-    private EntityManager em;
+    private JpaCustomerDao customerDao;
 
     @Before
-    public void setUp() {
-
-        cs = new JpaCustomerService(emf);
-        em = emf.createEntityManager();
-    }
-
-    @Test
-    public void testGetBalance() {
-
-        // exercise
-        double result = cs.getBalance(1);
-
-        // verify
-        assertEquals("The balance is different from what was expected", 150.5, result, DOUBLE_DELTA);
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void testGetBalanceInvalidCustomer() {
-
-        cs.getBalance(INVALID_ID);
-
-    }
-
-    @Test
-    public void testGetCustomerAccountIds() {
-
-        // exercise
-        Set<Integer> ids = cs.getCustomerAccountIds(1);
-
-        // verify
-        assertNotNull("Set is null", ids);
-        assertEquals("Not the number of users expected", 2, ids.size());
-        assertEquals("It should not be empty", false, ids.isEmpty());
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void testGetCustomerAccountIdsInvalidCustomer() {
-
-        cs.getCustomerAccountIds(INVALID_ID);
-
+    public void setup() {
+        customerDao = new JpaCustomerDao(sm);
     }
 
     @Test
@@ -72,7 +33,7 @@ public class JpaCustomerServiceIntegrationTest extends JpaIntegrationTestHelper 
         int id = 1;
 
         // exercise
-        Customer customer = cs.findById(id);
+        Customer customer = customerDao.findById(id);
 
         // verify
         assertNotNull("Customer is null", customer);
@@ -82,16 +43,21 @@ public class JpaCustomerServiceIntegrationTest extends JpaIntegrationTestHelper 
     }
 
     @Test()
-    public void testFindByIdInvalidCustomer() {
-        Customer customer = cs.findById(INVALID_ID);
+    public void testFindByIdInvalid() {
+
+        // exercise
+        Customer customer = customerDao.findById(INVALID_ID);
+
+        // verify
         assertNull("invalid customer should not be found", customer);
+
     }
 
     @Test
     public void testFindAll() {
 
         // exercise
-        List<Customer> customers = cs.findAll();
+        List<Customer> customers = customerDao.findAll();
 
         // verify
         assertNotNull("customers are null", customers);
@@ -100,37 +66,22 @@ public class JpaCustomerServiceIntegrationTest extends JpaIntegrationTestHelper 
     }
 
     @Test
-    public void testDeleteCustomer() {
+    public void testFindAllFail() {
 
         // setup
-        int id = 1;
+        tx.beginWrite();
+        Query query = sm.getCurrentSession().createQuery("delete from Account ");
+        query.executeUpdate();
+        query = sm.getCurrentSession().createQuery("delete from Customer");
+        query.executeUpdate();
+        tx.commit();
 
         // exercise
-        cs.delete(id);
+        List<Customer> customers = customerDao.findAll();
 
         // verify
-        Customer customer = em.find(Customer.class, id);
-        assertNull("should be null", customer);
-    }
-
-    @Test
-    public void testDeleteCustomerNoAccounts() {
-
-        // setup
-        int id = 4;
-
-        // exercise
-        cs.delete(id);
-
-        // verify
-        Customer customer = em.find(Customer.class, id);
-        assertNull("should be null", customer);
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void testDeleteCustomerInvalidCustomer() {
-
-        cs.delete(INVALID_ID);
+        assertNotNull("Customers are null", customers);
+        assertEquals("Number of customers is wrong", 0, customers.size());
 
     }
 
@@ -143,11 +94,13 @@ public class JpaCustomerServiceIntegrationTest extends JpaIntegrationTestHelper 
         newCustomer.setName(name);
 
         // exercise
-        Customer addedCustomer = cs.saveOrUpdate(newCustomer);
+        tx.beginWrite();
+        Customer addedCustomer = customerDao.saveOrUpdate(newCustomer);
+        tx.commit();
 
         // verify
         assertNotNull("customer not added", addedCustomer);
-        Customer customer = em.find(Customer.class, addedCustomer.getId());
+        Customer customer = sm.getCurrentSession().find(Customer.class, addedCustomer.getId());
         assertNotNull("Customer not found", customer);
 
     }
@@ -168,11 +121,13 @@ public class JpaCustomerServiceIntegrationTest extends JpaIntegrationTestHelper 
         newCustomer.addAccount(sa);
 
         // exercise
-        Customer addedCustomer = cs.saveOrUpdate(newCustomer);
+        tx.beginWrite();
+        Customer addedCustomer = customerDao.saveOrUpdate(newCustomer);
+        tx.commit();
 
         // verify
         assertNotNull("customer not added", addedCustomer);
-        Customer customer = em.find(Customer.class, addedCustomer.getId());
+        Customer customer = sm.getCurrentSession().find(Customer.class, addedCustomer.getId());
         assertNotNull("customer not found", addedCustomer);
         assertNotNull("customer accounts not found", customer.getAccounts());
         assertEquals("customer number of accounts wrong", newCustomer.getAccounts().size(), customer.getAccounts().size());
@@ -187,14 +142,16 @@ public class JpaCustomerServiceIntegrationTest extends JpaIntegrationTestHelper 
         // setup
         int id = 1;
         String name = "updated customer";
-        Customer customer = em.find(Customer.class, id);
+        Customer customer = sm.getCurrentSession().find(Customer.class, id);
         customer.setName(name);
 
         // exercise
-        cs.saveOrUpdate(customer);
+        tx.beginWrite();
+        customerDao.saveOrUpdate(customer);
+        tx.commit();
 
         // verify
-        customer = em.find(Customer.class, id);
+        customer = sm.getCurrentSession().find(Customer.class, id);
         assertEquals("customer name is wrong", name, customer.getName());
 
     }
@@ -205,15 +162,17 @@ public class JpaCustomerServiceIntegrationTest extends JpaIntegrationTestHelper 
         // setup
         int id = 1;
         String name = "updated customer";
-        Customer existingCustomer = em.find(Customer.class, id);
+        Customer existingCustomer = sm.getCurrentSession().find(Customer.class, id);
         existingCustomer.setName(name);
         existingCustomer.getAccounts().get(0).canCredit(100);
 
         // exercise
-        cs.saveOrUpdate(existingCustomer);
+        tx.beginWrite();
+        customerDao.saveOrUpdate(existingCustomer);
+        tx.commit();
 
         // verify
-        Customer customer = em.find(Customer.class, id);
+        Customer customer = sm.getCurrentSession().find(Customer.class, id);
         assertEquals("customer name is wrong", name, customer.getName());
         assertEquals("number of accounts is wrong", 2, customer.getAccounts().size());
         assertEquals("account balance is wrong", 100, customer.getAccounts().get(0).getBalance(), DOUBLE_DELTA);
@@ -226,18 +185,61 @@ public class JpaCustomerServiceIntegrationTest extends JpaIntegrationTestHelper 
         // setup
         int id = 1;
         String name = "updated customer";
-        Customer existingCustomer = em.find(Customer.class, id);
+        Customer existingCustomer = sm.getCurrentSession().find(Customer.class, id);
         existingCustomer.setName(name);
         existingCustomer.removeAccount(existingCustomer.getAccounts().get(1));
 
         // exercise
-        cs.saveOrUpdate(existingCustomer);
+        tx.beginWrite();
+        customerDao.saveOrUpdate(existingCustomer);
+        tx.commit();
 
         // verify
-        Customer customer = em.find(Customer.class, id);
+        Customer customer = sm.getCurrentSession().find(Customer.class, id);
         assertEquals("customer name is wrong", name, customer.getName());
         assertEquals("number of accounts is wrong", 1, customer.getAccounts().size());
         assertEquals("account balance is wrong", 100, customer.getAccounts().get(0).getBalance(), DOUBLE_DELTA);
 
+    }
+
+    @Test
+    public void testDeleteCustomer() {
+
+        // setup
+        int id = 1;
+
+        // exercise
+        tx.beginWrite();
+        customerDao.delete(id);
+        tx.commit();
+
+        // verify
+        Customer customer = sm.getCurrentSession().find(Customer.class, id);
+        assertNull("should be null", customer);
+    }
+
+    @Test
+    public void testDeleteCustomerNoAccounts() {
+
+        // setup
+        int id = 4;
+
+        // exercise
+        tx.beginWrite();
+        customerDao.delete(id);
+        tx.commit();
+
+        // verify
+        Customer customer = sm.getCurrentSession().find(Customer.class, id);
+        assertNull("should be null", customer);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testDeleteInvalid() {
+
+        // exercise
+        tx.beginWrite();
+        customerDao.delete(INVALID_ID);
+        tx.commit();
     }
 }

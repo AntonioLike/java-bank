@@ -3,7 +3,6 @@ package org.academiadecodigo.javabank.view;
 import org.academiadecodigo.javabank.controller.BalanceController;
 import org.academiadecodigo.javabank.model.Customer;
 import org.academiadecodigo.javabank.model.account.Account;
-import org.academiadecodigo.javabank.model.account.CheckingAccount;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -48,7 +47,7 @@ public class BalanceViewTest {
         view.show();
 
         verify(controller).getCustomer();
-        for (Account account: accounts) {
+        for (Account account : accounts) {
             verify(account).getBalance();
         }
 

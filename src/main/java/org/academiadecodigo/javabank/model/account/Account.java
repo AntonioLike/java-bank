@@ -53,7 +53,7 @@ public abstract class Account extends AbstractModel {
     public String toString() {
         return "Account{" +
                 "balance=" + balance +
-                ", customerId=" + (customer != null ? customer.getId() : null) +
+                ", customerId=" + (customer != null ?customer.getId() : null) +
                 "} " + super.toString();
     }
 }

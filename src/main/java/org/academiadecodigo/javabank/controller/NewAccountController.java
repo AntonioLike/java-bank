@@ -15,14 +15,14 @@ public class NewAccountController extends AbstractController {
     public void init() {
         newAccountId = createAccount();
         super.init();
+
     }
 
     private int createAccount() {
 
         Account newAccount = accountFactory.createAccount(AccountType.CHECKING);
         authService.getAccessingCustomer().addAccount(newAccount);
-        Account account = accountService.saveOrUpdate(newAccount);
-        return account.getId();
+        return accountService.add(newAccount);
     }
 
     public Integer getNewAccountId() {

@@ -4,7 +4,9 @@ import org.academiadecodigo.javabank.model.Customer;
 
 import java.util.Set;
 
-public interface CustomerService extends CRUDService<Customer> {
+public interface CustomerService {
+
+    Customer findById(Integer id);
 
     double getBalance(Integer id);
 
