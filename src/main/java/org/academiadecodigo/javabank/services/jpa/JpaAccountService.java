@@ -1,123 +1,84 @@
 package org.academiadecodigo.javabank.services.jpa;
 
 import org.academiadecodigo.javabank.model.account.Account;
-import org.academiadecodigo.javabank.managers.TransactionManagers.TransactionManager;
+import org.academiadecodigo.javabank.persistence.jpa.JpaTransactionManager;
+import org.academiadecodigo.javabank.persistence.jpa.models.JpaAccountDAO;
 import org.academiadecodigo.javabank.services.AccountService;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.RollbackException;
 
-public class JpaAccountService extends AbstractJpaService<Account> implements AccountService {
+public class JpaAccountService implements AccountService{
 
-    private TransactionManager transactionManager;
+    JpaAccountDAO accountDAO;
+    JpaTransactionManager tm;
 
-    public JpaAccountService(EntityManagerFactory emf) {
-        super(emf, Account.class);
+    public JpaAccountService(JpaAccountDAO accountDAO, JpaTransactionManager tm) {
+        this.accountDAO = accountDAO;
+        this.tm = tm;
     }
 
     @Override
     public void deposit(Integer id, double amount) {
-
-        EntityManager em = emf.createEntityManager();
-
-        try {
-
-            em.getTransaction().begin();
-
-            Account account = em.find(Account.class, id);
-
-            if (account == null) {
-                em.getTransaction().rollback();
+        tm.beginWrite();
+        try{
+            Account account = accountDAO.findById(id);
+            if (account == null){
+                tm.rollback();
                 throw new IllegalArgumentException("invalid account id");
             }
 
             account.credit(amount);
-            em.merge(account);
-            em.getTransaction().commit();
+            accountDAO.saveOrUpdate(account);
+            tm.commit();
 
-        } catch (RollbackException ex) {
-
-            em.getTransaction().rollback();
-
-        } finally {
-
-            if (em != null) {
-                em.close();
-            }
+        } catch (RollbackException ex){
+            tm.rollback();
         }
     }
 
     @Override
     public void withdraw(Integer id, double amount) {
 
-        EntityManager em = emf.createEntityManager();
-
-        try {
-
-            em.getTransaction().begin();
-
-            Account account = em.find(Account.class, id);
-
+        tm.beginWrite();
+        try{
+            Account account = accountDAO.findById(id);
             if (account == null) {
-                em.getTransaction().rollback();
+                tm.rollback();
                 throw new IllegalArgumentException("invalid account");
             }
 
-            account.debit(amount);
-            em.merge(account);
-
-            em.getTransaction().commit();
-
-        } catch (RollbackException ex) {
-
-            em.getTransaction().rollback();
-
-        } finally {
-
-            if (em != null) {
-                em.close();
-            }
+                account.debit(amount);
+                accountDAO.saveOrUpdate(account);
+                tm.commit();
+        } catch (RollbackException ex){
+            tm.rollback();
         }
     }
 
     @Override
     public void transfer(Integer srcId, Integer dstId, double amount) {
 
-        EntityManager em = emf.createEntityManager();
+        tm.beginWrite();
+        try{
+            Account srcAccount = accountDAO.findById(srcId);
+            Account dstAccount = accountDAO.findById(dstId);
 
-        try {
-
-            em.getTransaction().begin();
-
-            Account srcAccount = em.find(Account.class, srcId);
-            Account dstAccount = em.find(Account.class, dstId);
-
-            if (srcAccount == null || dstAccount == null) {
-                em.getTransaction().rollback();
-                throw new IllegalArgumentException("invalid account id");
+            if(srcAccount == null || dstAccount == null) {
+                tm.rollback();
+                throw new IllegalArgumentException(("at least one of the account id's is invalid"));
             }
 
-            // make sure transaction can be performed
-            if (srcAccount.canDebit(amount) && dstAccount.canCredit(amount)) {
+            if (srcAccount.canDebit(amount) && dstAccount.canCredit(amount)){
                 srcAccount.debit(amount);
                 dstAccount.credit(amount);
             }
 
-            em.merge(srcAccount);
-            em.merge(dstAccount);
+            accountDAO.saveOrUpdate(srcAccount);
+            accountDAO.saveOrUpdate(dstAccount);
 
-            em.getTransaction().commit();
-
+            tm.commit();
         } catch (RollbackException ex) {
-
-            em.getTransaction().rollback();
-
-        } finally {
-
-            if (em != null) {
-                em.close();
-            }
+            tm.rollback();
         }
     }
 }

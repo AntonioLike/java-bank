@@ -3,7 +3,7 @@ package org.academiadecodigo.javabank.services;
 import org.academiadecodigo.javabank.model.account.Account;
 import org.academiadecodigo.javabank.persistence.DAO;
 
-public interface AccountService extends DAO<Account> {
+public interface AccountService{
 
     void deposit(Integer id, double amount);
 

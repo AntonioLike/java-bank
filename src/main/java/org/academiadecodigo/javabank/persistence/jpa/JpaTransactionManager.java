@@ -4,7 +4,7 @@ import org.academiadecodigo.javabank.managers.TransactionManagers.TransactionMan
 
 public class JpaTransactionManager implements TransactionManager {
 
-    JpaSessionManager sm;
+    private JpaSessionManager sm;
 
     public JpaTransactionManager(JpaSessionManager sm) {
         this.sm = sm;

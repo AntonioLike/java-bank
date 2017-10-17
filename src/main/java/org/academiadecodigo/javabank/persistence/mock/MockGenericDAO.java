@@ -5,19 +5,19 @@ import org.academiadecodigo.javabank.persistence.DAO;
 
 import java.util.List;
 
-public class MockGenericDAO implements DAO {
+public class MockGenericDAO<T extends AbstractModel>  implements DAO<T> {
     @Override
-    public List findAll() {
+    public List<T> findAll() {
         return null;
     }
 
     @Override
-    public AbstractModel findById(Integer id) {
+    public T findById(Integer id) {
         return null;
     }
 
     @Override
-    public AbstractModel saveOrUpdate(AbstractModel modelObject) {
+    public T saveOrUpdate(T modelObject) {
         return null;
     }
 

@@ -2,65 +2,60 @@ package org.academiadecodigo.javabank.services.jpa;
 
 import org.academiadecodigo.javabank.model.Customer;
 import org.academiadecodigo.javabank.model.account.Account;
-import org.academiadecodigo.javabank.managers.TransactionManagers.TransactionManager;
+import org.academiadecodigo.javabank.persistence.jpa.JpaTransactionManager;
+import org.academiadecodigo.javabank.persistence.jpa.models.JpaCustomerDAO;
 import org.academiadecodigo.javabank.services.CustomerService;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class JpaCustomerService extends AbstractJpaService<Customer> implements CustomerService {
+public class JpaCustomerService implements CustomerService {
+    JpaCustomerDAO customerDAO;
+    JpaTransactionManager tm;
 
-    private TransactionManager transactionManager;
+    @Override
+    public Customer findById(Integer id) {
 
-    public JpaCustomerService(EntityManagerFactory emf) {
-        super(emf, Customer.class);
+    }
+
+    public JpaCustomerService(JpaCustomerDAO customerDAO, JpaTransactionManager tm) {
+        this.customerDAO = customerDAO;
+        this.tm = tm;
     }
 
     @Override
     public double getBalance(Integer id) {
-
-        EntityManager em = emf.createEntityManager();
-
-        try {
-
-            Customer customer = em.find(Customer.class, id);
-
-            if (customer == null) {
-                throw new IllegalArgumentException("Customer does not exists");
+        tm.beginRead();
+        try{
+            Customer customer = customerDAO.findById(id);
+            if(customer == null){
+                throw new IllegalArgumentException("Customer does not exist");
             }
 
             List<Account> accounts = customer.getAccounts();
 
             double balance = 0;
-            for (Account account : accounts) {
+            for (Account account : accounts){
                 balance += account.getBalance();
             }
 
             return balance;
-
         } finally {
-            if (em != null) {
-                em.close();
-            }
+            tm.commit();
         }
     }
 
     @Override
     public Set<Integer> getCustomerAccountIds(Integer id) {
+        tm.beginRead();
 
-        EntityManager em = emf.createEntityManager();
-
-        try {
-
+        try{
             Set<Integer> accountIds = new HashSet<>();
-
-            Customer customer = em.find(Customer.class, id);
+            Customer customer = customerDAO.findById(id);
 
             if (customer == null) {
-                throw new IllegalArgumentException("Customer does not exists");
+                throw new IllegalArgumentException("Customer does not exist");
             }
 
             List<Account> accounts = customer.getAccounts();
@@ -72,9 +67,7 @@ public class JpaCustomerService extends AbstractJpaService<Customer> implements 
             return accountIds;
 
         } finally {
-            if (em != null) {
-                em.close();
-            }
+            tm.commit();
         }
 
     }
