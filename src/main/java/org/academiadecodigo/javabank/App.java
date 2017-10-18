@@ -1,6 +1,7 @@
 package org.academiadecodigo.javabank;
 
 import org.academiadecodigo.javabank.controller.Controller;
+import org.academiadecodigo.javabank.controller.LoginController;
 import org.academiadecodigo.javabank.persistence.H2WebServer;
 import org.academiadecodigo.javabank.persistence.SessionManager;
 import org.academiadecodigo.javabank.persistence.TransactionManager;
@@ -11,6 +12,8 @@ import org.academiadecodigo.javabank.persistence.jpa.JpaTransactionManager;
 import org.academiadecodigo.javabank.services.AccountServiceImpl;
 import org.academiadecodigo.javabank.services.AuthServiceImpl;
 import org.academiadecodigo.javabank.services.CustomerServiceImpl;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -24,15 +27,21 @@ public class App {
 
             H2WebServer h2WebServer = new H2WebServer();
             h2WebServer.start();
-
+/*
             EntityManagerFactory emf = Persistence.createEntityManagerFactory(Config.PERSISTENCE_UNIT);
             JpaSessionManager sm = new JpaSessionManager(emf);
             TransactionManager tx = new JpaTransactionManager(sm);
-
+*/
             App app = new App();
-            app.bootStrap(tx, sm);
 
-            emf.close();
+            ApplicationContext context = new ClassPathXmlApplicationContext(
+                    "spring-configuration.xml"
+            );
+            LoginController loginController = context.getBean("loginController", LoginController.class);
+            loginController.init();
+            //app.bootStrap(tx, sm);
+
+            //emf.close();
             h2WebServer.stop();
 
         } catch (SQLException ex) {
@@ -51,6 +60,7 @@ public class App {
         customerService.setTransactionManager(tx);
 
         Bootstrap bootstrap = new Bootstrap();
+
 
         bootstrap.setAuthService(new AuthServiceImpl());
         bootstrap.setAccountService(accountService);

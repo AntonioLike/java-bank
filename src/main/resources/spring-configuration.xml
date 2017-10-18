@@ -3,24 +3,12 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+       http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
     http://www.springframework.org/schema/context
     http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+    <import resource="persistence-dev.xml"/>
 
-    <bean id="emFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
-        <property name="dataSource" ref="dataSource"/>
-        <property name="packagesToScan" value="org.academiadecodigo.javabank.model"/>
-        <property name="jpaVendorAdapter">
-            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"/>
-        </property>
-        <property name="jpaProperties">
-            <map>
-                <entry key="hibernate.dialect" value="org.hibernate.dialect.H2Dialect"/>
-                <entry key="hibernate.show_sql" value="false" />
-                <entry key="hibernate.hbm2ddl.auto" value="validate"/>
-            </map>
-        </property>
-    </bean>
+    <bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor"/>
 
     <bean id="system.in" class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
         <property name="staticField" value="java.lang.System.out"/>
@@ -57,68 +45,68 @@
     </bean>
 
     <bean id="loginController" class="org.academiadecodigo.javabank.controller.LoginController">
-        <property name="view" value="loginView"/>
-        <property name="authService" value="authService"/>
-        <property name="nextController" value="mainController"/>
+        <property name="view" ref="loginView"/>
+        <property name="authService" ref="authService"/>
+        <property name="nextController" ref="mainController"/>
     </bean>
     <bean id="mainController" class="org.academiadecodigo.javabank.controller.MainController">
-        <property name="view" value="mainView"/>
-        <property name="authService" value="authService"/>
+        <property name="view" ref="mainView"/>
+        <property name="authService" ref="authService"/>
         <property name="controllerMap">
             <map>
-                <entry key="1" value="balanceController"/>
-                <entry key="2" value="newAccountController"/>
-                <entry key="3" value="depositController"/>
-                <entry key="4" value="withdrawalController"/>
+                <entry key="1" value-ref="balanceController"/>
+                <entry key="2" value-ref="newAccountController"/>
+                <entry key="3" value-ref="depositController"/>
+                <entry key="4" value-ref="withdrawalController"/>
             </map>
         </property>
     </bean>
     <bean id="newAccountController" class="org.academiadecodigo.javabank.controller.NewAccountController">
-        <property name="authService" value="authService"/>
-        <property name="view" value="newAccountView"/>
-        <property name="accountFactory" value="accountFactory"/>
-        <property name="accountService" value="accountService"/>
+        <property name="authService" ref="authService"/>
+        <property name="view" ref="newAccountView"/>
+        <property name="accountFactory" ref="accountFactory"/>
+        <property name="accountService" ref="accountService"/>
     </bean>
     <bean id="balanceController" class="org.academiadecodigo.javabank.controller.BalanceController">
-        <property name="view" value="balanceView"/>
-        <property name="authService" value="authService"/>
-        <property name="customerService" value="customerService"/>
+        <property name="view" ref="balanceView"/>
+        <property name="authService" ref="authService"/>
+        <property name="customerService" ref="customerService"/>
     </bean>
     <bean id="depositController" class="org.academiadecodigo.javabank.controller.transaction.DepositController">
-        <property name="customerService" value="customerService"/>
-        <property name="authService" value="authService"/>
-        <property name="view" value="depositView"/>
-        <property name="accountService" value="accountService"/>
+        <property name="customerService" ref="customerService"/>
+        <property name="authService" ref="authService"/>
+        <property name="view" ref="depositView"/>
+        <property name="accountService" ref="accountService"/>
     </bean>
     <bean id="withdrawalController" class="org.academiadecodigo.javabank.controller.transaction.WithdrawalController">
-        <property name="accountService" value="accountService"/>
-        <property name="view" value="withdrawalView"/>
-        <property name="authService" value="authService"/>
-        <property name="customerService" value="customerService"/>
+        <property name="accountService" ref="accountService"/>
+        <property name="view" ref="withdrawalView"/>
+        <property name="authService" ref="authService"/>
+        <property name="customerService" ref="customerService"/>
     </bean>
 
 
     <bean id="loginView" class="org.academiadecodigo.javabank.view.LoginView">
-        <property name="loginController" value="loginController"/>
-        <property name="prompt" value="prompt"/>
+        <property name="loginController" ref="loginController"/>
+        <property name="prompt" ref="prompt"/>
     </bean>
     <bean id="mainView" class="org.academiadecodigo.javabank.view.MainView">
-        <property name="prompt" value="prompt"/>
-        <property name="mainController" value="mainController"/>
+        <property name="prompt" ref="prompt"/>
+        <property name="mainController" ref="mainController"/>
     </bean>
     <bean id="newAccountView" class="org.academiadecodigo.javabank.view.NewAccountView">
-        <property name="newAccountController" value="newAccountController"/>
+        <property name="newAccountController" ref="newAccountController"/>
     </bean>
     <bean id="balanceView" class="org.academiadecodigo.javabank.view.BalanceView">
-        <property name="balanceController" value="balanceController"/>
+        <property name="balanceController" ref="balanceController"/>
     </bean>
     <bean id="depositView" class="org.academiadecodigo.javabank.view.AccountTransactionView">
-        <property name="prompt" value="prompt"/>
-        <property name="transactionController" value="depositController"/>
+        <property name="prompt" ref="prompt"/>
+        <property name="transactionController" ref="depositController"/>
     </bean>
     <bean id="withdrawalView" class="org.academiadecodigo.javabank.view.AccountTransactionView">
-        <property name="prompt" value="prompt"/>
-        <property name="transactionController" value="withdrawalController"/>
+        <property name="prompt" ref="prompt"/>
+        <property name="transactionController" ref="withdrawalController"/>
     </bean>
 
 

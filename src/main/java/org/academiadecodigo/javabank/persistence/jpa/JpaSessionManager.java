@@ -5,6 +5,7 @@ import org.hibernate.Session;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceUnit;
 
 public class JpaSessionManager implements SessionManager<EntityManager> {
 

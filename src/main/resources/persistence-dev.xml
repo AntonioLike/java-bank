@@ -1,13 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans">
-    <import resource=""/>
+<beans xmlns="http://www.springframework.org/schema/beans"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+    <bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor"/>
+    <!-- Enable support for JPA annotations -->
+    <bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor"/>
+
+    <!-- Configure a persistence data source bean -->
     <bean id="dev" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-        <property name="hibernate.connection.driver_class" value="org.h2.Driver"/>
-        <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect"/>
-        <property name="hibernate.connection.url" value="jdbc:h2:./src/main/resources/db/javabank"/>
-        <property name="hibernate.connection.username" value="sa"/>
-        <property name="hibernate.connection.password" value=""/>
-        <property name="hibernate.archive.autodetection" value="class"/>
-        <property name="hibernate.format_sql" value="true"/>
+        <property name="driverClassName" value="org.h2.Driver"/>
+        <property name="url" value="jdbc:h2:./src/main/resources/db/javabank"/>
+        <property name="username" value="sa"/>
+        <property name="password" value=""/>
+    </bean>
+
+    <!-- Configure an EntityManagerFactory bean -->
+    <bean id="emFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="dataSource" ref="dev"/>
+        <property name="packagesToScan" value="org.academiadecodigo.javabank.model"/>
+        <property name="jpaVendorAdapter">
+            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"/>
+        </property>
+        <property name="jpaProperties">
+            <map>
+                <entry key="hibernate.connection.driver_class" value="org.h2.Driver"/>
+                <entry key="hibernate.dialect" value="org.hibernate.dialect.H2Dialect"/>
+                <entry key="hibernate.connection.url" value="jdbc:h2:./src/main/resources/db/javabank"/>
+                <entry key="hibernate.connection.username" value="sa"/>
+                <entry key="hibernate.connection.password" value=""/>
+                <entry key="hibernate.archive.autodetection" value="class"/>
+                <entry key="hibernate.format_sql" value="true"/>
+            </map>
+        </property>
     </bean>
 </beans>
