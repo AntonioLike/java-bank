@@ -1,7 +1,6 @@
 package org.academiadecodigo.javabank.persistence.jpa.dao;
 
 import org.academiadecodigo.javabank.model.Customer;
-import org.academiadecodigo.javabank.persistence.TransactionException;
 import org.academiadecodigo.javabank.persistence.dao.jpa.JpaCustomerDao;
 import org.academiadecodigo.javabank.persistence.jpa.JpaSessionManager;
 import org.hibernate.HibernateException;

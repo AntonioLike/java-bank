@@ -3,7 +3,6 @@ package org.academiadecodigo.javabank.persistence.jpa.dao;
 import org.academiadecodigo.javabank.model.account.Account;
 import org.academiadecodigo.javabank.model.account.CheckingAccount;
 import org.academiadecodigo.javabank.model.account.SavingsAccount;
-import org.academiadecodigo.javabank.persistence.TransactionException;
 import org.academiadecodigo.javabank.persistence.dao.jpa.JpaAccountDao;
 import org.academiadecodigo.javabank.persistence.jpa.JpaSessionManager;
 import org.hibernate.HibernateException;
@@ -22,19 +21,15 @@ import static org.mockito.Mockito.*;
 
 public class JpaAccountDaoTest {
 
-    private JpaSessionManager sm;
     private JpaAccountDao customerDao;
     private EntityManager em;
 
     @Before
     public void setup() {
 
-        sm = mock(JpaSessionManager.class);
         em = mock(EntityManager.class);
         customerDao = new JpaAccountDao();
-        customerDao.setSm(sm);
 
-        when(sm.getCurrentSession()).thenReturn(em);
 
     }
 
@@ -57,9 +52,6 @@ public class JpaAccountDaoTest {
         List<Account> customers = customerDao.findAll();
 
         // verify
-        verify(sm, times(1)).getCurrentSession();
-        verify(sm, never()).stopSession();
-        verify(sm, never()).startSession();
         verify(typedQuery, times(1)).getResultList();
         assertEquals(mockAccounts, customers);
     }
