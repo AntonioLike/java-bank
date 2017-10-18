@@ -34,7 +34,6 @@ public class App {
 
             emf.close();
             h2WebServer.stop();
-            //sdfuiolçdfghjklçdfghjkl TODO: delete
 
         } catch (SQLException ex) {
             ex.printStackTrace();

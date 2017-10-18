@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans">
+    <import resource=""/>
+    <bean id="dev" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="hibernate.connection.driver_class" value="org.h2.Driver"/>
+        <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect"/>
+        <property name="hibernate.connection.url" value="jdbc:h2:./src/main/resources/db/javabank"/>
+        <property name="hibernate.connection.username" value="sa"/>
+        <property name="hibernate.connection.password" value=""/>
+        <property name="hibernate.archive.autodetection" value="class"/>
+        <property name="hibernate.format_sql" value="true"/>
+    </bean>
+</beans>
