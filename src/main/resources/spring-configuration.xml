@@ -23,9 +23,17 @@
         <constructor-arg ref="system.out"/>
     </bean>
 
-    <bean id="authService" class="org.academiadecodigo.javabank.services.AuthServiceImpl"/>
-    <bean id="customerService" class="org.academiadecodigo.javabank.services.CustomerServiceImpl"/>
-    <bean id="accountService" class="org.academiadecodigo.javabank.services.AccountServiceImpl"/>
+    <bean id="authService" class="org.academiadecodigo.javabank.services.AuthServiceImpl">
+        <property name="customerService" ref="customerService"/>
+    </bean>
+    <bean id="customerService" class="org.academiadecodigo.javabank.services.CustomerServiceImpl">
+        <property name="customerDao" ref="jpaCustomerDao"/>
+        <property name="transactionManager" ref="jpaTransactionManager"/>
+    </bean>
+    <bean id="accountService" class="org.academiadecodigo.javabank.services.AccountServiceImpl">
+        <property name="transactionManager" ref="jpaTransactionManager"/>
+        <property name="accountDao" ref="jpaAccountDao"/>
+    </bean>
 
     <bean id="accountFactory" class="org.academiadecodigo.javabank.factories.AccountFactory"/>
 
@@ -55,9 +63,9 @@
         <property name="controllerMap">
             <map>
                 <entry key="1" value-ref="balanceController"/>
-                <entry key="2" value-ref="newAccountController"/>
-                <entry key="3" value-ref="depositController"/>
-                <entry key="4" value-ref="withdrawalController"/>
+                <entry key="4" value-ref="newAccountController"/>
+                <entry key="2" value-ref="depositController"/>
+                <entry key="3" value-ref="withdrawalController"/>
             </map>
         </property>
     </bean>
