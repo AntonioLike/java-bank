@@ -9,6 +9,11 @@ import java.util.*;
 public class MockCustomerService extends AbstractMockService<Customer> implements CustomerService {
 
     @Override
+    public List<Customer> findAll() {
+        return new ArrayList<>(modelMap.values());
+    }
+
+    @Override
     public Customer findById(Integer id) {
         return modelMap.get(id);
     }

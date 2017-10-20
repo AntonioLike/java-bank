@@ -2,9 +2,11 @@ package org.academiadecodigo.javabank.persistence.dao.jpa;
 
 import org.academiadecodigo.javabank.model.Customer;
 import org.academiadecodigo.javabank.persistence.dao.CustomerDao;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public class JpaCustomerDao extends GenericJpaDao<Customer> implements CustomerDao {
 
     public JpaCustomerDao() {
