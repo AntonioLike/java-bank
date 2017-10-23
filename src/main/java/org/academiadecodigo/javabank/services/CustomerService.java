@@ -17,4 +17,5 @@ public interface CustomerService {
 
     Set<Integer> getCustomerAccountIds(Integer id);
 
+    Customer save(Customer customer);
 }

@@ -41,6 +41,11 @@ public class MockCustomerService extends AbstractMockService<Customer> implement
     }
 
     @Override
+    public Customer save(Customer customer) {
+        return new Customer();
+    }
+
+    @Override
     public List<Customer> list() {
         return new ArrayList<>(modelMap.values());
     }

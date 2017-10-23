@@ -26,6 +26,12 @@ public class CustomerServiceImpl implements CustomerService {
         return customerDao.findById(id);
     }
 
+    @Transactional
+    @Override
+    public Customer save(Customer customer) {
+        return customerDao.saveOrUpdate(customer);
+    }
+
     @Override
     public double getBalance(Integer id) {
 

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <thymeleaf th:replace="header :: header" />
+</head>
+<body>
+<div>
+    <h2>New Customer</h2>
+    <form th:object="${customer}" th:action="@{/customer/add}" method="post">
+        <input th:type ="hidden" th:field="*{id}"/>
+        <th First name /> <input th:type ="hidden" th:field="*{version}"/>
+        <input th:type="text" th:field="*{firstName}"/>
+        <input th:type="submit"/>
+    </form>
+</div>
+</body>
+</html>
