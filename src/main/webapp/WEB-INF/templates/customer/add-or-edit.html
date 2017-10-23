@@ -8,8 +8,13 @@
     <h2>New Customer</h2>
     <form th:object="${customer}" th:action="@{/customer/add}" method="post">
         <input th:type ="hidden" th:field="*{id}"/>
-        <th First name /> <input th:type ="hidden" th:field="*{version}"/>
-        <input th:type="text" th:field="*{firstName}"/>
+        <input th:type ="hidden" th:field="*{version}"/>
+        <table>
+            <tr>
+                <th>First Name:</th>
+                <td> <input th:type="text" th:field="*{firstName}"/></td>
+            </tr>
+        </table>
         <input th:type="submit"/>
     </form>
 </div>
