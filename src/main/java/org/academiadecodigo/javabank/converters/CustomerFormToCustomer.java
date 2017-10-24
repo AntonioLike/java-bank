@@ -7,6 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Component
 public class CustomerFormToCustomer implements Converter<CustomerForm, Customer> {
 
@@ -24,5 +27,16 @@ public class CustomerFormToCustomer implements Converter<CustomerForm, Customer>
         customer.setPhone(customerForm.getPhone());
 
         return customer;
+    }
+
+    public List<Customer> convertList(List<CustomerForm> customerFormList) {
+
+        List<Customer> customerList = new ArrayList<>();
+
+        for (CustomerForm customerForm : customerFormList)
+            customerList.add(convert(customerFormList.get(customerForm.getId())));
+
+        return customerList;
+
     }
 }

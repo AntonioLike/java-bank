@@ -21,7 +21,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-public class CustomerControllerTest {
+public class RestCustomerControllerTest {
 
     @Mock
     private CustomerService customerService;
@@ -33,7 +33,7 @@ public class CustomerControllerTest {
     CustomerFormToCustomer customerFormToCustomer;
 
     @InjectMocks
-    private CustomerController customerController;
+    private RestCustomerController customerController;
 
     private MockMvc mockMvc;
 

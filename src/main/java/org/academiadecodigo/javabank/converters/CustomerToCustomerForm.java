@@ -5,6 +5,9 @@ import org.academiadecodigo.javabank.model.Customer;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Component
 public class CustomerToCustomerForm implements Converter<Customer, CustomerForm> {
 
@@ -19,5 +22,16 @@ public class CustomerToCustomerForm implements Converter<Customer, CustomerForm>
         customerForm.setPhone(customer.getPhone());
 
         return customerForm;
+    }
+
+    public List<CustomerForm> convertList(List<Customer> customerList) {
+
+        List<CustomerForm> customerFormList = new ArrayList<>();
+
+        for (Customer customer : customerList)
+            customerFormList.add(convert(customerList.get(customer.getId())));
+
+        return customerFormList;
+
     }
 }
