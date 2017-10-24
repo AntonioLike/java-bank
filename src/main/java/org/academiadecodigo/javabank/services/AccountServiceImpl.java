@@ -12,11 +12,6 @@ public class AccountServiceImpl implements AccountService {
     @Autowired
     private AccountDao accountDao;
 
-    @Override
-    public Account get(Integer id) {
-        return accountDao.findById(id);
-    }
-
     @Transactional
     @Override
     public Integer add(Account account) {

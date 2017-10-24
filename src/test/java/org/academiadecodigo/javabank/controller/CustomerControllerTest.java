@@ -1,8 +1,8 @@
 package org.academiadecodigo.javabank.controller;
 
-import org.academiadecodigo.javabank.command.CustomerDto;
-import org.academiadecodigo.javabank.converters.CustomerDtoToCustomer;
-import org.academiadecodigo.javabank.converters.CustomerToCustomerDto;
+import org.academiadecodigo.javabank.command.CustomerForm;
+import org.academiadecodigo.javabank.converters.CustomerFormToCustomer;
+import org.academiadecodigo.javabank.converters.CustomerToCustomerForm;
 import org.academiadecodigo.javabank.model.Customer;
 import org.academiadecodigo.javabank.services.CustomerService;
 import org.junit.Before;
@@ -27,10 +27,10 @@ public class CustomerControllerTest {
     private CustomerService customerService;
 
     @Mock
-    CustomerToCustomerDto customerToCustomerDto;
+    CustomerToCustomerForm customerToCustomerForm;
 
     @Mock
-    CustomerDtoToCustomer customerDtoToCustomer;
+    CustomerFormToCustomer customerFormToCustomer;
 
     @InjectMocks
     private CustomerController customerController;
@@ -99,7 +99,7 @@ public class CustomerControllerTest {
         mockMvc.perform(get("/customer/add"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("customer/add-update"))
-                .andExpect(model().attribute("customer", instanceOf(CustomerDto.class)));
+                .andExpect(model().attribute("customer", instanceOf(CustomerForm.class)));
 
         verifyZeroInteractions(customerService);
     }
@@ -109,16 +109,16 @@ public class CustomerControllerTest {
 
         int fakeID = 9999;
         Customer customer = new Customer();
-        CustomerDto customerDto = new CustomerDto();
+        CustomerForm customerForm = new CustomerForm();
         customer.setId(fakeID);
 
         when(customerService.get(fakeID)).thenReturn(customer);
-        when(customerToCustomerDto.convert(customer)).thenReturn(customerDto);
+        when(customerToCustomerForm.convert(customer)).thenReturn(customerForm);
 
         mockMvc.perform(get("/customer/edit/" + fakeID))
                 .andExpect(status().isOk())
                 .andExpect(view().name("customer/add-update"))
-                .andExpect(model().attribute("customer", equalTo(customerDto)));
+                .andExpect(model().attribute("customer", equalTo(customerForm)));
 
         verify(customerService, times(1)).get(fakeID);
 
@@ -134,7 +134,7 @@ public class CustomerControllerTest {
         String phone = "999888";
         String email = "mail@gmail.com";
 
-        CustomerDto customerDto = new CustomerDto();
+        CustomerForm customerForm = new CustomerForm();
         Customer customer = new Customer();
         customer.setId(fakeID);
         customer.setFirstName(firstName);
@@ -143,7 +143,7 @@ public class CustomerControllerTest {
         customer.setEmail(email);
 
 
-        when(customerDtoToCustomer.convert(ArgumentMatchers.any(CustomerDto.class))).thenReturn(customer);
+        when(customerFormToCustomer.convert(ArgumentMatchers.any(CustomerForm.class))).thenReturn(customer);
         when(customerService.save(ArgumentMatchers.any(Customer.class))).thenReturn(customer);
 
         mockMvc.perform(post("/customer")
@@ -156,8 +156,8 @@ public class CustomerControllerTest {
                 .andExpect(status().is3xxRedirection());
 
         //verify properties of bound command object
-        ArgumentCaptor<CustomerDto> boundCustomer = ArgumentCaptor.forClass(CustomerDto.class);
-        verify(customerDtoToCustomer, times(1)).convert(boundCustomer.capture());
+        ArgumentCaptor<CustomerForm> boundCustomer = ArgumentCaptor.forClass(CustomerForm.class);
+        verify(customerFormToCustomer, times(1)).convert(boundCustomer.capture());
         verify(customerService, times(1)).save(customer);
 
         assertEquals(fakeID, boundCustomer.getValue().getId());

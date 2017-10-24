@@ -1,8 +1,8 @@
 package org.academiadecodigo.javabank.controller;
 
-import org.academiadecodigo.javabank.command.CustomerDto;
-import org.academiadecodigo.javabank.converters.CustomerDtoToCustomer;
-import org.academiadecodigo.javabank.converters.CustomerToCustomerDto;
+import org.academiadecodigo.javabank.command.CustomerForm;
+import org.academiadecodigo.javabank.converters.CustomerFormToCustomer;
+import org.academiadecodigo.javabank.converters.CustomerToCustomerForm;
 import org.academiadecodigo.javabank.model.Customer;
 import org.academiadecodigo.javabank.services.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,10 +22,10 @@ public class CustomerController {
     private CustomerService customerService;
 
     @Autowired
-    private CustomerDtoToCustomer customerDtoToCustomer;
+    private CustomerFormToCustomer customerFormToCustomer;
 
     @Autowired
-    private CustomerToCustomerDto customerToCustomerDto;
+    private CustomerToCustomerForm customerToCustomerForm;
 
     @RequestMapping(method = RequestMethod.GET, path = {"/list", "/", ""})
     public String listCustomers(Model model) {
@@ -35,13 +35,13 @@ public class CustomerController {
 
     @RequestMapping(method = RequestMethod.GET, path = "/add")
     public String addCustomer(Model model) {
-        model.addAttribute("customer", new CustomerDto());
+        model.addAttribute("customer", new CustomerForm());
         return "customer/add-update";
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/edit/{id}")
     public String editCustomer(@PathVariable Integer id, Model model) {
-        model.addAttribute("customer", customerToCustomerDto.convert(customerService.get(id)));
+        model.addAttribute("customer", customerToCustomerForm.convert(customerService.get(id)));
         return "customer/add-update";
     }
 
@@ -52,13 +52,13 @@ public class CustomerController {
     }
 
     @RequestMapping(method = RequestMethod.POST, path = {"/", ""})
-    public String saveCustomer(@Valid @ModelAttribute("customer") CustomerDto customerDto, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+    public String saveCustomer(@Valid @ModelAttribute("customer") CustomerForm customerForm, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
 
         if (bindingResult.hasErrors()) {
            return "customer/add-update";
         }
 
-        Customer savedCustomer = customerService.save(customerDtoToCustomer.convert(customerDto));
+        Customer savedCustomer = customerService.save(customerFormToCustomer.convert(customerForm));
 
         redirectAttributes.addFlashAttribute("lastAction", "Saved " + savedCustomer.getFirstName() + " " + savedCustomer.getLastName());
         return "redirect:/customer/";
@@ -73,8 +73,8 @@ public class CustomerController {
         return "redirect:/customer";
     }
 
-//    @ExceptionHandler(Exception.class)
-//    public void handleAllException(Exception ex) {
-//        ex.printStackTrace();
-//    }
+    @ExceptionHandler(Exception.class)
+    public void handleAllException(Exception ex) {
+        ex.printStackTrace();
+    }
 }

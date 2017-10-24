@@ -2,7 +2,7 @@ package org.academiadecodigo.javabank.command;
 
 import javax.validation.constraints.*;
 
-public class CustomerDto {
+public class CustomerForm {
 
     private Integer id;
 
