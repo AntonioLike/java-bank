@@ -64,4 +64,5 @@ public abstract class AbstractModel implements Model {
                 ", updateTime=" + updateTime +
                 '}';
     }
+
 }

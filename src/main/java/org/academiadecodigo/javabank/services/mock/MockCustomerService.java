@@ -46,6 +46,17 @@ public class MockCustomerService extends AbstractMockService<Customer> implement
     }
 
     @Override
+    public Customer save(Customer customer) {
+
+        if (customer.getId() == null) {
+            customer.setId(getNextId());
+        }
+
+        modelMap.put(customer.getId(), customer);
+        return customer;
+    }
+
+    @Override
     public void delete(Integer id) {
         modelMap.remove(id);
     }

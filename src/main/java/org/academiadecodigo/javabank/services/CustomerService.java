@@ -11,6 +11,8 @@ public interface CustomerService {
 
     Customer get(Integer id);
 
+    Customer save(Customer customer);
+
     void delete(Integer id);
 
     double getBalance(Integer id);

@@ -1,8 +1,13 @@
 package org.academiadecodigo.javabank.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.academiadecodigo.javabank.model.account.Account;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
+import javax.validation.constraints.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,6 +33,7 @@ public class Customer extends AbstractModel {
             // fetch accounts from database together with user
             fetch = FetchType.EAGER
     )
+    @JsonManagedReference
     private List<Account> accounts = new ArrayList<>();
 
     public List<Account> getAccounts() {
@@ -74,6 +80,16 @@ public class Customer extends AbstractModel {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Customer customer = (Customer) o;
+
+        return customer.getId().equals(this.getId());
     }
 
     @Override
